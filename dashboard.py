@@ -12,3 +12,12 @@ st.markdown("Summary table of the relative frequency of each cell population")
 
 summary_df = data_analysis.summary_table()
 st.dataframe(summary_df, use_container_width=True)
+
+st.divider()
+
+st.header("Statistical Analysis")
+st.markdown("Filtered summary data for: **Melanoma | Miraclib | PBMC | Responders vs Non-Responders**")
+
+filtered_df = data_analysis.filter_data(summary_df)
+
+st.dataframe(filtered_df, use_container_width=True)

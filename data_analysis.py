@@ -18,3 +18,20 @@ def summary_table():
     summary_df["percentage"] = (summary_df["count"] / summary_df["total_count"]) * 100
 
     return summary_df[["sample", "total_count", "population", "count", "percentage"]]
+
+def filter_data(summary_df):
+    conn = sqlite3.connect(PATH_TO_DB)
+    query = """
+        SELECT Samples.sample_id AS sample, Subjects.condition, Samples.treatment, Samples.sample_type, Samples.response
+        FROM Samples
+        JOIN Subjects ON Samples.subject_id = Subjects.subject_id
+        WHERE Subjects.condition = 'melanoma'
+            AND Samples.treatment = 'miraclib'
+            AND Samples.sample_type = 'PBMC'
+            AND Samples.response IN ('yes', 'no')
+    """
+
+    filtered_df = pd.read_sql(query, conn)
+    conn.close()
+
+    return pd.merge(filtered_df, summary_df, on="sample")
