@@ -16,8 +16,13 @@ st.dataframe(summary_df, use_container_width=True)
 st.divider()
 
 st.header("Statistical Analysis")
-st.markdown("Filtered summary data for: **Melanoma | Miraclib | PBMC | Responders vs Non-Responders**")
+st.markdown("Comparing the differences in cell population relative frequencies of _**melanoma**_ patients \
+            receiving _**miraclib**_ who respond _**(responders)**_ versus those who do not _**(non-responders)**_. _**PBMC**_ samples ONLY.")
 
 filtered_df = data_analysis.filter_data(summary_df)
+col1, col2 = st.columns([2, 1])
 
-st.dataframe(filtered_df, use_container_width=True)
+with col1:
+    st.subheader("Population Distributions")
+    fig = data_analysis.boxplots(filtered_df)
+    st.plotly_chart(fig, use_container_width=True)

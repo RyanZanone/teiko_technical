@@ -35,3 +35,12 @@ def filter_data(summary_df):
     conn.close()
 
     return pd.merge(filtered_df, summary_df, on="sample")
+
+def boxplots(df):
+    fig = px.box(
+        df, x="population", y="percentage", color="response",
+        title="Cell Population Relative Frequencies: Responders vs Non-Responders",
+        labels={"percentage": "Relative Frequency (%)", "population": "Immune Cell Population"},
+        color_discrete_map={"yes": "green", "no": "red"}
+    )
+    return fig
