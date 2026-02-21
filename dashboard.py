@@ -53,3 +53,13 @@ with col4:
 with col5:
     st.subheader("Subjects by Sex")
     st.dataframe(sex_counts, hide_index=True, use_container_width=True)
+
+st.divider()
+
+st.header("Final Analysis: Demographic Average")
+
+avg_b_cells_subset = data_analysis.get_avg_bcells_baseline_male_responders_subset()
+st.success(f"**Average B Cells For Male Responders with Melanoma 0 Days After Starting Treatment (Using Previously Mentioned Subset): {avg_b_cells_subset:.2f}**")
+
+avg_b_cells_full = data_analysis.get_avg_bcells_baseline_male_responders_full()
+st.success(f"**Average B Cells For Male Responders with Melanoma 0 Days After Starting Treatment (Using Full Dataset): {avg_b_cells_full:.2f}**")

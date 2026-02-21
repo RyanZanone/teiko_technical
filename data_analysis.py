@@ -91,3 +91,45 @@ def get_baseline_subset():
     sex_counts.columns = ["Sex", "Subject Count"]
 
     return project_counts, response_counts, sex_counts
+
+def get_avg_bcells_baseline_male_responders_full():
+    conn = sqlite3.connect(PATH_TO_DB)
+    query = """
+        SELECT CellCounts.count
+        FROM Subjects
+        JOIN Samples ON Subjects.subject_id = Samples.subject_id
+        JOIN CellCounts ON Samples.sample_id = CellCounts.sample_id
+        WHERE Subjects.condition = 'melanoma'
+            AND Subjects.sex = 'M'
+            AND Samples.response = 'yes'
+            AND Samples.time_from_treatment_start = 0
+            AND CellCounts.population = 'b_cell'
+    """
+    df = pd.read_sql(query, conn)
+    conn.close()
+
+    avg_b_cells = df["count"].mean()
+
+    return avg_b_cells
+
+def get_avg_bcells_baseline_male_responders_subset():
+    conn = sqlite3.connect(PATH_TO_DB)
+    query = """
+        SELECT CellCounts.count
+        FROM Subjects
+        JOIN Samples ON Subjects.subject_id = Samples.subject_id
+        JOIN CellCounts ON Samples.sample_id = CellCounts.sample_id
+        WHERE Subjects.condition = 'melanoma'
+            AND Samples.treatment = 'miraclib'
+            AND Samples.sample_type = 'PBMC'
+            AND Subjects.sex = 'M'
+            AND Samples.response = 'yes'
+            AND Samples.time_from_treatment_start = 0
+            AND CellCounts.population = 'b_cell'
+    """
+    df = pd.read_sql(query, conn)
+    conn.close()
+
+    avg_b_cells = df["count"].mean()
+
+    return avg_b_cells
