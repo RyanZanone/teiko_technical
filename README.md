@@ -1,7 +1,7 @@
 # Ryan Zanone Teiko Technical Exam
 
 ## Instructions
-- The following libraries are necessary for running this program: **pandas**, **sqlite3**, **scipy**, **plotly**, **streamlit**
+- Dependencies can be found in `requirements.txt`
 - To run the data loading script, simply run `python load_data.py`
 - To run the dashboard application, run `streamlit run dashboard.py`
 
