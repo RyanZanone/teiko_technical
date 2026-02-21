@@ -64,3 +64,30 @@ def run_statistical_tests(df):
         })
 
     return pd.DataFrame(results)
+
+def get_baseline_subset():
+    conn = sqlite3.connect(PATH_TO_DB)
+    query = """
+        SELECT Subjects.project, Subjects.sex, Samples.response, Subjects.subject_id
+        FROM Samples
+        JOIN Subjects ON Samples.subject_id = Subjects.subject_id
+        WHERE Subjects.condition = 'melanoma'
+            AND Samples.treatment = 'miraclib'
+            AND Samples.sample_type = 'PBMC'
+            AND Samples.time_from_treatment_start = 0
+    """
+    df = pd.read_sql(query, conn)
+    conn.close()
+
+    unique_subjects = df.drop_duplicates(subset=["subject_id"])
+
+    project_counts = df["project"].value_counts().reset_index()
+    project_counts.columns = ["Project", "Sample Count"]
+
+    response_counts = unique_subjects["response"].value_counts().reset_index()
+    response_counts.columns = ["Response", "Subject Count"]
+
+    sex_counts = unique_subjects["sex"].value_counts().reset_index()
+    sex_counts.columns = ["Sex", "Subject Count"]
+
+    return project_counts, response_counts, sex_counts

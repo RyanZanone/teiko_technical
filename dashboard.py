@@ -32,3 +32,24 @@ with col2:
     st.markdown("Results of running independent T-tests comparing responders vs. non-responders for each cell population. Considered a significant difference if the p-value is less than 0.05")
     stats_df = data_analysis.run_statistical_tests(filtered_df)
     st.dataframe(stats_df, hide_index=True)
+
+st.divider()
+
+st.header("Data Subset Analysis")
+st.markdown("Analysis of all _**melanoma PBMC**_ samples at _**baseline**_ (time_from_treatment_start is 0) for patients who have been treated with _**miraclib**_.")
+
+project_counts, response_counts, sex_counts = data_analysis.get_baseline_subset()
+
+col3, col4, col5 = st.columns(3)
+
+with col3:
+    st.subheader("Samples per Project")
+    st.dataframe(project_counts, hide_index=True, use_container_width=True)
+
+with col4:
+    st.subheader("Subjects by Response")
+    st.dataframe(response_counts, hide_index=True, use_container_width=True)
+
+with col5:
+    st.subheader("Subjects by Sex")
+    st.dataframe(sex_counts, hide_index=True, use_container_width=True)
