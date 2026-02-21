@@ -16,4 +16,5 @@ My main goal in structuring my code was keeping things organized, and easy to ex
 
 _**NOTE:**_ I was a bit confused by the final question in the Google Form, as I wasn't entirely sure if you wanted this value derived from the subset of data mentioned in Part 4, or from the entire dataset. I included both values on the dashboard, but the answer in the Google Form is for the **entire** dataset.
 
-Here is the link to my dashboard.
+Here is the link to my dashboard: https://ryanzanone-teikotechnical-dashboard.streamlit.app/
+
