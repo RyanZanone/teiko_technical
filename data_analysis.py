@@ -36,7 +36,7 @@ def filter_data(summary_df):
 
     return pd.merge(filtered_df, summary_df, on="sample")
 
-def boxplots(df):
+def generate_boxplots(df):
     fig = px.box(
         df, x="population", y="percentage", color="response",
         title="Cell Population Relative Frequencies: Responders vs Non-Responders",
@@ -44,3 +44,23 @@ def boxplots(df):
         color_discrete_map={"yes": "green", "no": "red"}
     )
     return fig
+
+def run_statistical_tests(df):
+    populations = df["population"].unique()
+    results = []
+
+    for pop in populations:
+        pop_data = df[df["population"] == pop]
+        responders = pop_data[pop_data["response"] == "yes"]["percentage"]
+        non_responders = pop_data[pop_data["response"] == "no"]["percentage"]
+
+        t_stat, p_val = stats.ttest_ind(responders, non_responders, equal_var=False)
+        significat = "Yes" if p_val < 0.05 else "No"
+
+        results.append({
+            "Cell Population": pop,
+            "P-Value": p_val,
+            "Significant Difference? (p < 0.05)": significat
+        })
+
+    return pd.DataFrame(results)

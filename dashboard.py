@@ -24,5 +24,11 @@ col1, col2 = st.columns([2, 1])
 
 with col1:
     st.subheader("Population Distributions")
-    fig = data_analysis.boxplots(filtered_df)
+    fig = data_analysis.generate_boxplots(filtered_df)
     st.plotly_chart(fig, use_container_width=True)
+
+with col2:
+    st.subheader("Differences in Relative Frequencies Between Responders and Non-Responders")
+    st.markdown("Results of running independent T-tests comparing responders vs. non-responders for each cell population. Considered a significant difference if the p-value is less than 0.05")
+    stats_df = data_analysis.run_statistical_tests(filtered_df)
+    st.dataframe(stats_df, hide_index=True)
